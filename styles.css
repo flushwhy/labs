@@ -1,0 +1,163 @@
+/* ============================================================
+   FlushLabs — styles.css
+   Aesthetic: Clean technical blog, understated, readable
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+:root {
+  --fl-accent: #2563eb;
+  --fl-accent-muted: rgba(37, 99, 235, 0.1);
+  --fl-accent-border: rgba(37, 99, 235, 0.25);
+  --fl-mono: 'IBM Plex Mono', monospace;
+  --fl-sans: 'IBM Plex Sans', sans-serif;
+  --fl-radius: 6px;
+}
+
+/* ── Base ───────────────────────────────────────────────────── */
+body {
+  font-family: var(--fl-sans);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--fl-sans);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+code, pre, .sourceCode {
+  font-family: var(--fl-mono) !important;
+  font-size: 0.875em;
+}
+
+/* ── Navbar ─────────────────────────────────────────────────── */
+.navbar-brand {
+  font-family: var(--fl-mono);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.nav-link {
+  font-size: 0.9rem;
+}
+
+/* ── Homepage prose ─────────────────────────────────────────── */
+.quarto-title h1.title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+/* ── Section dividers ───────────────────────────────────────── */
+hr {
+  margin: 2rem 0;
+  opacity: 0.2;
+}
+
+/* ── "What I'm working on" bold leads ───────────────────────── */
+p strong:first-child {
+  font-family: var(--fl-mono);
+  font-size: 0.9em;
+}
+
+/* ── Blockquotes ────────────────────────────────────────────── */
+blockquote {
+  border-left: 3px solid var(--fl-accent);
+  padding: 0.5rem 1rem;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+/* ── Footer stack line ──────────────────────────────────────── */
+p em:only-child {
+  font-family: var(--fl-mono);
+  font-size: 0.78rem;
+  opacity: 0.5;
+}
+
+/* ── Listing cards ──────────────────────────────────────────── */
+.quarto-listing-default .list-item {
+  border: 1px solid rgba(128,128,128,0.2);
+  border-radius: var(--fl-radius);
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 0.85rem;
+  transition: border-color 0.15s ease;
+}
+
+.quarto-listing-default .list-item:hover {
+  border-color: var(--fl-accent);
+}
+
+.listing-date, .listing-reading-time {
+  font-family: var(--fl-mono);
+  font-size: 0.78rem;
+  opacity: 0.55;
+}
+
+/* ── Category badges ────────────────────────────────────────── */
+.badge, .quarto-category {
+  font-family: var(--fl-mono) !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.04em;
+  border-radius: 3px !important;
+  text-transform: uppercase;
+}
+
+/* ── TOC ────────────────────────────────────────────────────── */
+#TOC {
+  font-family: var(--fl-mono);
+  font-size: 0.8rem;
+}
+
+/* ── Code blocks ────────────────────────────────────────────── */
+div.sourceCode {
+  border-radius: var(--fl-radius);
+}
+
+/* ── Inline code ────────────────────────────────────────────── */
+/* Tone down inline `code` spans — no heavy background boxes */
+p code, li code, td code {
+  font-family: var(--fl-mono);
+  font-size: 0.875em;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: inherit;
+  opacity: 0.75;
+}
+
+/* ── Inline code light/dark fix ─────────────────────────────── */
+/* Light mode: soft gray pill, readable */
+[data-bs-theme="light"] p code,
+[data-bs-theme="light"] li code,
+[data-bs-theme="light"] td code {
+  background: #f0f0f0;
+  color: #111;
+  border: none;
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  opacity: 1;
+}
+
+/* Dark mode: keep subtle/transparent */
+[data-bs-theme="dark"] p code,
+[data-bs-theme="dark"] li code,
+[data-bs-theme="dark"] td code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: inherit;
+  opacity: 0.75;
+}
+
+/* ── Inline code nuclear fix ────────────────────────────────── */
+p code, li code, td code {
+  background: #f0f0f0 !important;
+  color: #111111 !important;
+  border: none !important;
+  padding: 0.1em 0.35em !important;
+  border-radius: 3px !important;
+  opacity: 1 !important;
+}

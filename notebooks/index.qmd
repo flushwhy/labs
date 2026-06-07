@@ -1,0 +1,16 @@
+---
+title: "R&D Logs"
+subtitle: "Technical spikes, paper breakdowns, and engineering notebooks."
+page-layout: full
+listing:
+  contents:
+    - "*.ipynb"
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: true
+  filter-ui: true
+  fields: [date, title, description, categories, reading-time]
+---
+
+Welcome to the FlushLabs engineering logs. Live, executable computational notebooks detailing optimization passes, ML model training scripts, and architectural benchmarks.

@@ -1,0 +1,52 @@
+---
+title: "About Me"
+subtitle: "Systems Engineer & Deep Tech Founder"
+about:
+  template: trestles
+  links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/flushwhy
+
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com/in/flushly
+
+    - icon: envelope
+      text: Email
+      href: mailto:roflush@proton.me
+
+    - icon: discord
+      text: Discord (_flush)
+      href: https://discord.com/users/_flush
+---
+
+## Background
+
+I am **Flushwhy**, a software engineer specializing in low-level systems, high-performance architecture, and real-time game engineering. 
+
+My background in **High-Performance Computing (HPC)** ingrained in me a strict philosophy of mechanical sympathy—understanding exactly how software interacts with hardware, memory caches, and silicon. 
+
+Today, games are hitting a technical ceiling. Running heavy, unoptimized AI and physics models inside a real-time game loop is incredibly difficult. I founded FlushLabs to solve this specific bottleneck: leveraging my systems background to make advanced AI/ML algorithms small, fast, and deterministic enough for production game engines.
+
+---
+
+## Technical Edge
+
+### Systems Engineering (HPC)
+*   **Low-Level Mastery:** Years of experience writing high-throughput, memory-efficient code in **C/C++, Go, and Odin**.
+*   **Extreme Optimization:** Multi-threading, SIMD vectorization, and cache-conscious data structures designed to squeeze every ounce of performance out of hardware.
+
+### Real-Time AI & Simulations
+*   **Engine Integration:** Deep architecture work inside **Unreal Engine** and building native, modular extensions for **Godot**.
+*   **Applied Research:** Merging traditional engineering disciplines (like DSP and classical rigid-body physics) with lightweight, local deep learning models.
+
+---
+
+## Engineering Manifesto
+
+> "The sustainability of modern open infrastructure relies entirely on rigorous engineering oversight."
+
+I operate on a philosophy of strict technical accountability. As software systems grow increasingly complex and reliant on automated layers, the baseline definitions of transparency and security are at risk of eroding.
+
+I believe systems should be built with mechanical sympathy—where every layer of the stack is optimized, audited, and deterministic. FlushLabs exists to challenge lazy abstractions, delivering lean, low-level engineering that respects both the hardware it runs on and the end user it serves.

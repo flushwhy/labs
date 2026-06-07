@@ -1,0 +1,26 @@
+# Quarto internal execution and rendering caches
+/.quarto/
+/_site/
+
+# Jupyter/Python artifacts (if using Python chunks)
+.jupyter_cache/
+*/_ipynb_checkpoints/
+.virtualenv/
+venv/
+.venv/
+Env/
+
+# R artifacts (if using R chunks)
+.Rhistory
+.RData
+.Ruserdata
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor configurations (Neovim/VS Code)
+.vscode/
+.idea/
+*.swp
+*~

@@ -1,0 +1,30 @@
+project:
+  type: website
+
+website:
+  site-url: "https://flushwhy.github.io/labs/"
+  title: "Flush Laboratory"
+  description: "Exploring The World of Games and Machine Learning"
+  favicon: "assets/favicon.ico"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: about.qmd
+        text: About
+      - href: notebooks/index.qmd
+        text: R&D Logs
+    right:
+      - icon: github
+        href: https://github.com/flushwhy
+        aria-label: GitHub
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    css: styles.css
+    toc: true
+    toc-title: "On this page"
+    highlight-style: github-dark

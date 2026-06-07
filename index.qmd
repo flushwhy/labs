@@ -1,0 +1,96 @@
+---
+title: "FlushLabs"
+subtitle: "Systems engineering, engine tooling, and lightweight AI research."
+page-layout: full
+about:
+  template: marquee
+  links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/flushwhy
+    - icon: discord
+      text: Discord (_flush)
+      href: https://discord.com/
+---
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-8}
+I'm **Flushwhy** — a systems engineer with an HPC background, currently building engine tooling, networking utilities, and lightweight AI research for games.
+
+This lab is where I ship open-source infrastructure, run benchmarks, and document the work publicly.
+:::
+
+::: {.g-col-12 .g-col-md-4}
+| Field | Technologies |
+|:---|:---|
+| **Languages** | C/C++, Go, Odin, Python |
+| **Engines** | Unreal Engine, Godot |
+| **Domains** | HPC, Networking, Applied AI |
+:::
+
+:::
+
+---
+
+## Shipped Projects
+
+### GameJolt API Plugin — Unreal Engine 5
+> Native C++ · Subsystem Architecture · Blueprint Integration
+
+A production-ready integration of the GameJolt API built natively for UE5. Bypasses bloated wrappers and plugs directly into Unreal's subsystem architecture — exposing clean async pipelines for leaderboards, session management, cloud storage, and authentication with zero frame-budget impact.
+
+<a class="btn btn-outline-primary btn-sm" href="https://github.com/flushwhy/Gamejolt" target="_blank" role="button">
+  <i class="bi bi-github"></i> View on GitHub
+</a>
+
+---
+
+### FlushTools — Single-Header C Utility Library
+> Bit Packing · Serialization · Quantization · Coordinate Compression · Networking
+
+A lightweight, dependency-free C utility library built for engine-side use. The most useful parts are the networking and compression utilities — bit packing, quantization, and coordinate compression for multiplayer data optimization. Also includes a custom PRNG validated against 100M samples for uniform distribution and serial independence.
+
+<a class="btn btn-outline-primary btn-sm" href="https://github.com/flushwhy/flushtoolsh" target="_blank" role="button">
+  <i class="bi bi-github"></i> View on GitHub
+</a>
+
+---
+
+## Active R&D
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+### Embedded Low-Power TTS
+> Deep Learning + Signal Processing
+
+Ultra-efficient Text-to-Speech optimized for local inference on Raspberry Pi and mobile — no cloud round-trip. Replacing heavy APIs with native C/C++ inference to make runtime dialogue systems viable on constrained hardware.
+
+[→ R&D Logs](notebooks/index.qmd)
+:::
+
+::: {.g-col-12 .g-col-md-6}
+### ML-Enhanced 2D Physics
+> Rigid Body Dynamics + Neural Approximation
+
+A deterministic 2D physics engine combining classical constraint solvers with neural approximation for expensive dynamics — targeting sub-16.6ms execution to fit inside a real game loop.
+:::
+
+:::
+
+---
+
+## Technical Notebooks
+
+Benchmarks, statistical analysis, and implementation notes live in the [R&D Logs](notebooks/index.qmd). Everything is executable and reproducible.
+
+---
+
+::: {.callout-note icon=true}
+### Open to Collaboration
+Looking to connect with **systems engineers, game developers, and AI/ML researchers** interested in real-time software. Commercial R&D, benchmarking, or early-stage venture building — reach out.
+
+- **Discord:** `_flush`
+- **Signal:** `flush.01`
+:::
