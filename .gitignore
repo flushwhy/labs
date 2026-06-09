@@ -25,3 +25,5 @@ Thumbs.db
 *.swp
 *~
 **/*.quarto_ipynb
+env/
+/env/
