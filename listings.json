@@ -2,6 +2,7 @@
   {
     "listing": "/notebooks/index.html",
     "items": [
+      "/notebooks/quantization-noise-vs-bit-width-in-networked-3d-coordinate-compression.html",
       "/notebooks/checking-numbers-for-random.html"
     ]
   }

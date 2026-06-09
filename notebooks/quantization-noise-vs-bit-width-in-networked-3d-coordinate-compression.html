@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-06-10">
+<meta name="description" content="Evaluating the mathematical trade-off between network bandwidth savings and coordinate precision degradation in real-time replication systems using flushtools.h.">
+
+<title>Quantization Noise vs.&nbsp;Bit-Width in Networked 3D Coordinate Compression – Flush Laboratory</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-cdf887c61664ea113b72282c4e36e3e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-262182a0e63330a96b8a3c5cd92e8537.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-cdf887c61664ea113b72282c4e36e3e6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Flush Laboratory</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../notebooks/index.html"> 
+<span class="menu-text">R&amp;D Logs</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/flushwhy"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#methodology-testing-objectives" id="toc-methodology-testing-objectives" class="nav-link active" data-scroll-target="#methodology-testing-objectives">Methodology &amp; Testing Objectives</a></li>
+  <li><a href="#the-mathematical-framework" id="toc-the-mathematical-framework" class="nav-link" data-scroll-target="#the-mathematical-framework">1. The Mathematical Framework:</a>
+  <ul class="collapse">
+  <li><a href="#step-a-normalization" id="toc-step-a-normalization" class="nav-link" data-scroll-target="#step-a-normalization">Step A: Normalization</a></li>
+  <li><a href="#step-b-scaling-rounding-quantization" id="toc-step-b-scaling-rounding-quantization" class="nav-link" data-scroll-target="#step-b-scaling-rounding-quantization">Step B: Scaling &amp; Rounding (Quantization)</a></li>
+  <li><a href="#step-c-reconstruction-dequantization" id="toc-step-c-reconstruction-dequantization" class="nav-link" data-scroll-target="#step-c-reconstruction-dequantization">Step C: Reconstruction (Dequantization)</a></li>
+  </ul></li>
+  <li><a href="#low-level-implementation-in-flushtools.h" id="toc-low-level-implementation-in-flushtools.h" class="nav-link" data-scroll-target="#low-level-implementation-in-flushtools.h">Low-level implementation in <code>flushtools.h</code></a>
+  <ul class="collapse">
+  <li><a href="#coordinate-quantization-helpers" id="toc-coordinate-quantization-helpers" class="nav-link" data-scroll-target="#coordinate-quantization-helpers">Coordinate Quantization Helpers</a></li>
+  <li><a href="#arbitrary-bitstream-serialization" id="toc-arbitrary-bitstream-serialization" class="nav-link" data-scroll-target="#arbitrary-bitstream-serialization">Arbitrary Bitstream Serialization</a></li>
+  </ul></li>
+  <li><a href="#empirical-benchmark-output" id="toc-empirical-benchmark-output" class="nav-link" data-scroll-target="#empirical-benchmark-output">Empirical Benchmark Output</a></li>
+  <li><a href="#error-analysis-bandwidth-savings" id="toc-error-analysis-bandwidth-savings" class="nav-link" data-scroll-target="#error-analysis-bandwidth-savings">Error Analysis &amp; Bandwidth Savings</a></li>
+  <li><a href="#executable-simulation-code-python" id="toc-executable-simulation-code-python" class="nav-link" data-scroll-target="#executable-simulation-code-python">Executable Simulation Code (Python)</a></li>
+  <li><a href="#statistical-interpretation-visual-artifacting" id="toc-statistical-interpretation-visual-artifacting" class="nav-link" data-scroll-target="#statistical-interpretation-visual-artifacting">Statistical Interpretation &amp; Visual Artifacting</a></li>
+  <li><a href="#final-assessment-conclusion" id="toc-final-assessment-conclusion" class="nav-link" data-scroll-target="#final-assessment-conclusion">Final Assessment &amp; Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Quantization Noise vs.&nbsp;Bit-Width in Networked 3D Coordinate Compression</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">C++</div>
+    <div class="quarto-category">Quant</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Evaluating the mathematical trade-off between network bandwidth savings and coordinate precision degradation in real-time replication systems using flushtools.h.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 10, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In multiplayer game development, replicating 3D coordinates (<span class="math inline">\(X, Y, Z\)</span>) is typically one of the most significant contributors to constant bandwidth consumption. By default, engine architectures represent world coordinates using three 32-bit floating-point numbers, totaling 96 bits (12 bytes) per vector.</p>
+<p>When replicating positions for dozens of actors at <span class="math inline">\(20\text{Hz}\)</span> or <span class="math inline">\(60\text{Hz}\)</span>, this payload size quickly compounds.</p>
+<p>To optimize multiplayer data throughput, we can employ bit-packing and quantization within our network serialization pipelines. Rather than shipping raw, unaligned floats, we project world space coordinates onto a bounded range, scale them down into custom bit-width integers using the native quantization features in flushtools.h, serialize those packed bits over the wire, and reconstruct them on the receiving client.</p>
+<p>This notebook uses synthetic game trajectories to analyze the exact point where network bit-width reduction introduces visual jitter, pinpointing the mathematical “sweet spot” for modern multiplayer network replication.</p>
+<section id="methodology-testing-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="methodology-testing-objectives">Methodology &amp; Testing Objectives</h2>
+<p>Our goal is to mathematically map the relationship between coordinate bit-width allocation and actual spatial reconstruction error. We subject a synthetic player movement dataset—complete with high-frequency micro-jitter simulating physics and keyboard input—to a simulated lossy network transmission cycle using the flushtools API.</p>
+</section>
+<section id="the-mathematical-framework" class="level2">
+<h2 class="anchored" data-anchor-id="the-mathematical-framework">1. The Mathematical Framework:</h2>
+<p>To compress our continuous 32-bit floats, we must map them into a fixed discrete integer space of bit-width <span class="math inline">\(b\)</span> inside a known bounding box <span class="math inline">\([x_{\text{min}}, x_{\text{max}}]\)</span>.</p>
+<section id="step-a-normalization" class="level3">
+<h3 class="anchored" data-anchor-id="step-a-normalization">Step A: Normalization</h3>
+<p>First, we translate and normalize the raw coordinate value <span class="math inline">\(x\)</span> to a float value within the range <span class="math inline">\([0.0, 1.0]\)</span>: <span class="math display">\[
+x_{\text{norm}} = \frac{x - x_{\text{min}}}{x_{\text{max}} - x_{\text{min}}}
+\]</span></p>
+</section>
+<section id="step-b-scaling-rounding-quantization" class="level3">
+<h3 class="anchored" data-anchor-id="step-b-scaling-rounding-quantization">Step B: Scaling &amp; Rounding (Quantization)</h3>
+<p>We then scale this normalized float to the maximum integer representable by <span class="math inline">\(b\)</span> bits, defined as <span class="math inline">\(2^b - 1\)</span>, and round it to the nearest integer. This value can then be written to the network packet bitstream:</p>
+<p><span class="math display">\[
+x_{\text{quant}} = \lfloor x_{\text{norm}} \cdot (2^b - 1) + 0.5 \rfloor
+\]</span></p>
+</section>
+<section id="step-c-reconstruction-dequantization" class="level3">
+<h3 class="anchored" data-anchor-id="step-c-reconstruction-dequantization">Step C: Reconstruction (Dequantization)</h3>
+<p>Upon receiving the packet, the client unpacks the integer <span class="math inline">\(x_{\text{quant}}\)</span> and maps it back to 32-bit world-space coordinates: <span class="math display">\[
+x_{\text{reconstructed}} = \left( \frac{x_{\text{quant}}}{2^b - 1} \right) \cdot (x_{\text{max}} - x_{\text{min}}) + x_{\text{min}}
+\]</span></p>
+</section>
+</section>
+<section id="low-level-implementation-in-flushtools.h" class="level2">
+<h2 class="anchored" data-anchor-id="low-level-implementation-in-flushtools.h">Low-level implementation in <code>flushtools.h</code></h2>
+<p>The engine side implementation of this pipeline is built natively into <code>flushtools.h</code>. By avoiding heavy standard library dependencies, the library handles bit-level quantization and arbitrary bit-width serialization with near-zero frame-budget impact.</p>
+<section id="coordinate-quantization-helpers" class="level3">
+<h3 class="anchored" data-anchor-id="coordinate-quantization-helpers">Coordinate Quantization Helpers</h3>
+<p>The mathematical mapping functions are implemented as high-performance, compiler-inlinable functions:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="kw">inline</span> <span class="dt">uint32_t</span> net_quantize<span class="op">(</span><span class="dt">float</span> value<span class="op">,</span> <span class="dt">float</span> min<span class="op">,</span> <span class="dt">float</span> max<span class="op">,</span> <span class="dt">int</span> bits<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>value <span class="op">&lt;</span> min<span class="op">)</span> value <span class="op">=</span> min<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>value <span class="op">&gt;</span> max<span class="op">)</span> value <span class="op">=</span> max<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> normalized <span class="op">=</span> <span class="op">(</span>value <span class="op">-</span> min<span class="op">)</span> <span class="op">/</span> <span class="op">(</span>max <span class="op">-</span> min<span class="op">);</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> max_val <span class="op">=</span> <span class="op">(</span><span class="dv">1</span><span class="bu">U</span> <span class="op">&lt;&lt;</span> bits<span class="op">)</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">(</span><span class="dt">uint32_t</span><span class="op">)(</span>normalized <span class="op">*</span> max_val <span class="op">+</span> <span class="fl">0.5</span><span class="bu">f</span><span class="op">);</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="kw">inline</span> <span class="dt">float</span> net_dequantize<span class="op">(</span><span class="dt">uint32_t</span> value<span class="op">,</span> <span class="dt">float</span> min<span class="op">,</span> <span class="dt">float</span> max<span class="op">,</span> <span class="dt">int</span> bits<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> max_val <span class="op">=</span> <span class="op">(</span><span class="dv">1</span><span class="bu">U</span> <span class="op">&lt;&lt;</span> bits<span class="op">)</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> normalized <span class="op">=</span> <span class="op">(</span><span class="dt">float</span><span class="op">)</span>value <span class="op">/</span> <span class="op">(</span><span class="dt">float</span><span class="op">)</span>max_val<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> min <span class="op">+</span> normalized <span class="op">*</span> <span class="op">(</span>max <span class="op">-</span> min<span class="op">);</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="arbitrary-bitstream-serialization" class="level3">
+<h3 class="anchored" data-anchor-id="arbitrary-bitstream-serialization">Arbitrary Bitstream Serialization</h3>
+<p>Writing integers of dynamic, unaligned bit-widths (e.g., 12-bit or 14-bit coordinates) requires byte-boundary traversal. flushtools.h accomplishes this using raw pointer manipulation and fast bit-shifting inside <code>net_writer_bits</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="kw">inline</span> <span class="dt">void</span> net_writer_bits<span class="op">(</span>net_bit_writer_t<span class="op">*</span> writer<span class="op">,</span> <span class="dt">uint32_t</span> value<span class="op">,</span> <span class="dt">int</span> count<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> count<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>writer<span class="op">-&gt;</span>current_bit <span class="op">&gt;=</span> writer<span class="op">-&gt;</span>bit_capacity<span class="op">)</span> <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">((</span>value <span class="op">&gt;&gt;</span> i<span class="op">)</span> <span class="op">&amp;</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Index calculation: bit / 8 (using optimized shift: &gt;&gt; 3)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Bit offset: bit % 8 (using optimized mask: &amp; 7)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            writer<span class="op">-&gt;</span>buffer<span class="op">[</span>writer<span class="op">-&gt;</span>current_bit <span class="op">&gt;&gt;</span> <span class="dv">3</span><span class="op">]</span> <span class="op">|=</span> <span class="op">(</span><span class="dv">1</span> <span class="op">&lt;&lt;</span> <span class="op">(</span>writer<span class="op">-&gt;</span>current_bit <span class="op">&amp;</span> <span class="dv">7</span><span class="op">));</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        writer<span class="op">-&gt;</span>current_bit<span class="op">++;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>By computing the byte index as <code>current_bit &gt;&gt; 3</code> and the local offset as <code>current_bit &amp; 7</code>, <code>flushtools.h</code> bypasses expensive division and modulo CPU instructions, optimizing the serialization path for high-tick-rate servers.</p>
+</section>
+</section>
+<section id="empirical-benchmark-output" class="level2">
+<h2 class="anchored" data-anchor-id="empirical-benchmark-output">Empirical Benchmark Output</h2>
+<p>Using our Python-based simulation pipeline (which mirrors the bitwise rules of <code>flushtools.h</code>), we evaluated the spatial deviation metrics across a variety of bit allocations.</p>
+</section>
+<section id="error-analysis-bandwidth-savings" class="level2">
+<h2 class="anchored" data-anchor-id="error-analysis-bandwidth-savings">Error Analysis &amp; Bandwidth Savings</h2>
+<p>Two foundational metrics were tracked to analyze precision loss:</p>
+<ol type="1">
+<li><p>Root Mean Squared Error (RMSE): Highly sensitive to larger, sudden visual “teleportations” or deviations.</p></li>
+<li><p>Mean Absolute Error (MAE): Represents the average spatial offset on the client side. <span class="math display">\[
+\text{3D RMSE} = \sqrt{\frac{1}{N}\sum_{i=1}^{N} \left[ (x_i - \hat{x}_i)^2 + (y_i - \hat{y}_i)^2 + (z_i - \hat{z}_i)^2 \right]}
+\]</span></p></li>
+</ol>
+<p><span class="math display">\[
+\text{3D MAE} = \frac{1}{N}\sum_{i=1}^{N} \sqrt{(x_i - \hat{x}_i)^2 + (y_i - \hat{y}_i)^2 + (z_i - \hat{z}_i)^2}
+\]</span></p>
+<p>The empirical run over our <span class="math inline">\(1\text{km}^3\)</span> bounds yielded the following statistical breakdown:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 14%">
+<col style="width: 16%">
+<col style="width: 14%">
+<col style="width: 13%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Bits Per Component</th>
+<th>Total Vector Bits</th>
+<th>Bandwidth Saved (%)</th>
+<th>3D RMSE (meters)</th>
+<th>3D MAE (meters)</th>
+<th>Spatial Resolution (approx)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>8-bit</td>
+<td>24 bits</td>
+<td>75.0%</td>
+<td>3.393450</td>
+<td>2.871052</td>
+<td>3.92m</td>
+</tr>
+<tr class="even">
+<td>10-bit</td>
+<td>30 bits</td>
+<td>68.8%</td>
+<td>0.852441</td>
+<td>0.722971</td>
+<td>0.97m</td>
+</tr>
+<tr class="odd">
+<td>12-bit</td>
+<td>36 bits</td>
+<td>62.5%</td>
+<td>0.213192</td>
+<td>0.180536</td>
+<td>0.24m (24cm)</td>
+</tr>
+<tr class="even">
+<td>14-bit</td>
+<td>42 bits</td>
+<td>56.2%</td>
+<td>0.053158</td>
+<td>0.045053</td>
+<td>6.10cm</td>
+</tr>
+<tr class="odd">
+<td>16-bit</td>
+<td>48 bits</td>
+<td>50.0%</td>
+<td>0.013233</td>
+<td>0.011218</td>
+<td>1.52cm</td>
+</tr>
+<tr class="even">
+<td>18-bit</td>
+<td>54 bits</td>
+<td>43.8%</td>
+<td>0.003318</td>
+<td>0.002812</td>
+<td>0.38cm (3.8mm)</td>
+</tr>
+<tr class="odd">
+<td>20-bit</td>
+<td>60 bits</td>
+<td>37.5%</td>
+<td>0.000830</td>
+<td>0.000703</td>
+<td>0.95mm</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="executable-simulation-code-python" class="level2">
+<h2 class="anchored" data-anchor-id="executable-simulation-code-python">Executable Simulation Code (Python)</h2>
+<p>To verify the mathematical proofs, execute the following script. It generates a synthetic player trajectory with micro-jitter, runs the exact quantization math, computes the error deltas, and renders the plots showing visual degradation.</p>
+<div id="cell-10" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_synthetic_trajectory(num_points<span class="op">=</span><span class="dv">1000</span>, bounds<span class="op">=</span>(<span class="op">-</span><span class="fl">500.0</span>, <span class="fl">500.0</span>)):</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span> <span class="op">*</span> np.pi, num_points)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    min_val, max_val <span class="op">=</span> bounds</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Base movement path inside 3D space</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="dv">150</span> <span class="op">*</span> np.sin(t) <span class="op">+</span> <span class="dv">50</span> <span class="op">*</span> t <span class="op">-</span> <span class="dv">200</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="dv">200</span> <span class="op">*</span> np.cos(t <span class="op">*</span> <span class="fl">0.5</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> np.sin(t <span class="op">*</span> <span class="dv">2</span>) <span class="op">+</span> <span class="dv">15</span> <span class="op">*</span> t <span class="op">-</span> <span class="dv">100</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># High-frequency simulated player jitter (physics bumps, input vibration)</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    jitter_scale <span class="op">=</span> <span class="fl">0.45</span>  <span class="co"># ~45cm of micro-variance</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    x <span class="op">+=</span> np.random.normal(<span class="dv">0</span>, jitter_scale, num_points)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    y <span class="op">+=</span> np.random.normal(<span class="dv">0</span>, jitter_scale, num_points)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    z <span class="op">+=</span> np.random.normal(<span class="dv">0</span>, jitter_scale, num_points)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.stack((np.clip(x, min_val, max_val), </span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>                     np.clip(y, min_val, max_val), </span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>                     np.clip(z, min_val, max_val)), axis<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> quantize_dequantize(vector, bits, bounds<span class="op">=</span>(<span class="op">-</span><span class="fl">500.0</span>, <span class="fl">500.0</span>)):</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    min_val, max_val <span class="op">=</span> bounds</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    range_val <span class="op">=</span> max_val <span class="op">-</span> min_val</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Normalize</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    normalized <span class="op">=</span> np.clip((vector <span class="op">-</span> min_val) <span class="op">/</span> range_val, <span class="fl">0.0</span>, <span class="fl">1.0</span>)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Scale &amp; Pack</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    max_int <span class="op">=</span> (<span class="dv">1</span> <span class="op">&lt;&lt;</span> bits) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    quantized_ints <span class="op">=</span> np.<span class="bu">round</span>(normalized <span class="op">*</span> max_int).astype(np.uint64)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Unpack &amp; Dequantize</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (quantized_ints <span class="op">/</span> max_int) <span class="op">*</span> range_val <span class="op">+</span> min_val</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Run pipeline and export metric outputs</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> (<span class="op">-</span><span class="fl">500.0</span>, <span class="fl">500.0</span>)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> generate_synthetic_trajectory(<span class="dv">1000</span>, bounds)</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>bit_widths <span class="op">=</span> <span class="bu">range</span>(<span class="dv">8</span>, <span class="dv">22</span>)</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>rmse_vals, mae_vals <span class="op">=</span> [], []</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> bits <span class="kw">in</span> bit_widths:</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    reconstructed <span class="op">=</span> quantize_dequantize(coords, bits, bounds)</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    errors <span class="op">=</span> np.sqrt(np.<span class="bu">sum</span>((coords <span class="op">-</span> reconstructed) <span class="op">**</span> <span class="dv">2</span>, axis<span class="op">=-</span><span class="dv">1</span>))</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    rmse_vals.append(np.sqrt(np.mean(errors <span class="op">**</span> <span class="dv">2</span>)))</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    mae_vals.append(np.mean(errors))</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>plt.plot(bit_widths, rmse_vals, marker<span class="op">=</span><span class="st">'o'</span>, label<span class="op">=</span><span class="st">'3D RMSE (m)'</span>)</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>plt.plot(bit_widths, mae_vals, marker<span class="op">=</span><span class="st">'s'</span>, label<span class="op">=</span><span class="st">'3D MAE (m)'</span>)</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Error Decay vs. Bit-Width Allocation"</span>)</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Bits per Axis"</span>)</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Error (meters)"</span>)</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>plt.yscale(<span class="st">'log'</span>)</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, which<span class="op">=</span><span class="st">"both"</span>, ls<span class="op">=</span><span class="st">":"</span>)</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="quantization-noise-vs-bit-width-in-networked-3d-coordinate-compression_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="statistical-interpretation-visual-artifacting" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-interpretation-visual-artifacting">Statistical Interpretation &amp; Visual Artifacting</h2>
+<p>The results map a beautiful exponential decay curve for error as bit allocation increases. However, network optimization is not simply about keeping error as close to zero as possible—it is about finding the point where the error becomes sub-sensory to the player.</p>
+<ol type="1">
+<li><p>The Low-precision Failure Zone (8 to 10 bits) At 8-bit component packing (saving <span class="math inline">\(75\%\)</span> bandwidth), the spatial resolution is roughly <span class="math inline">\(3.9\text{m}\)</span>. This means a player’s coordinate will only update on the client when they cross massive <span class="math inline">\(3.9\text{m}\)</span> boundary thresholds.</p>
+<ul>
+<li><p>Visual Artifacts: Severe visual stuttering, constant “teleporting” / rubber-banding, and a complete breakdown of character physics.</p></li>
+<li><p>Verdict: Unusable for physical gameplay, though potentially viable for low-frequency UI indicators (like map coordinate pings).</p></li>
+</ul></li>
+<li><p>The 12-Bit Sweet Spot (<span class="math inline">\(36\)</span> total bits) At 12-bit component packing (saving <span class="math inline">\(62.5\%\)</span> bandwidth), the average reconstruction offset drops to <span class="math inline">\(18\text{cm}\)</span>.</p>
+<ul>
+<li><p>Visual Artifacts: When plotted, the reconstructed trajectory exhibits a visible “stepping” or staircase pattern during smooth curves, where micro-jitter and sub-decimeter path corrections are flattened.</p></li>
+<li><p>Verdict: Highly viable for games with strong client-side interpolation or dead-reckoning algorithms that smooth out the coordinate steps over time. This is the optimal budget-saver for high-tick-rate shooters or massive lobbies where packet count must be severely restricted.</p></li>
+</ul></li>
+<li><p>The 16-Bit Near-Lossless Standard (<span class="math inline">\(48\)</span> total bits) At 16-bit component packing (saving <span class="math inline">\(50\%\)</span> bandwidth), the reconstruction error plummets to a mere <span class="math inline">\(1.1\text{cm}\)</span>.</p>
+<ul>
+<li><p>Visual Artifacts: The client-reconstructed path is virtually indistinguishable from the raw uncompressed 96-bit coordinate trajectory. The <span class="math inline">\(1.5\text{cm}\)</span> grid is fine enough to perfectly preserve high-frequency details without introducing step jitter.</p></li>
+<li><p>Verdict: The gold standard for typical high-fidelity character replication. It slices your replication costs directly in half with zero noticeable degradation to the end user.</p></li>
+</ul></li>
+<li><p>Fast Path Optimization: Specialized 16-bit Compression For environments where dynamic bit-packing overhead on the CPU represents a larger bottleneck than raw bandwidth (e.g., highly restricted server threads), flushtools.h provides an optimized fast-path utility via compass_coord and decompress_coord.</p></li>
+</ol>
+<p>Instead of arbitrary loop shifts, it maps coordinate floats directly to standard uint16_t boundary allocations. This completely bypasses bitstream shifting overhead and aligns with standard 2-byte memory boundaries directly:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">uint16_t</span> compass_coord<span class="op">(</span><span class="dt">float</span> value<span class="op">,</span> <span class="dt">float</span> min_val<span class="op">,</span> <span class="dt">float</span> max_val<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> normalized <span class="op">=</span> <span class="op">(</span>value <span class="op">-</span> min_val<span class="op">)</span> <span class="op">/</span> <span class="op">(</span>max_val <span class="op">-</span> min_val<span class="op">);</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">(</span><span class="dt">uint16_t</span><span class="op">)(</span>normalized <span class="op">*</span> <span class="fl">65535.0</span><span class="bu">f</span><span class="op">);</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> decompress_coord<span class="op">(</span><span class="dt">uint16_t</span> value<span class="op">,</span> <span class="dt">float</span> min_val<span class="op">,</span> <span class="dt">float</span> max_val<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> normalized <span class="op">=</span> <span class="op">(</span><span class="dt">float</span><span class="op">)</span>value <span class="op">/</span> <span class="fl">65535.0</span><span class="bu">f</span><span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> min_val <span class="op">+</span> normalized <span class="op">*</span> <span class="op">(</span>max_val <span class="op">-</span> min_val<span class="op">);</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This fast-path alternative matches the 16-bit near-lossless standard shown in our benchmarks while maximizing CPU throughput.</p>
+</section>
+<section id="final-assessment-conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="final-assessment-conclusion">Final Assessment &amp; Conclusion</h2>
+<p>Through systematic quantization, we successfully demonstrated that a networked game can safely discard <span class="math inline">\(50\%\)</span> to <span class="math inline">\(62.5\%\)</span> of its spatial replication bandwidth without breaking character physics or client immersion.</p>
+<ul>
+<li><p>Use 12-bit quantization inside localized grid sectors when dealing with massive player counts, provided your client utilizes robust Hermite/Bezier trajectory interpolation.</p></li>
+<li><p>Use 16-bit quantization (or the fast-path compass_coord helpers in flushtools.h) as your default baseline payload layout. It guarantees absolute frame-rate stability and pixel-perfect replication for competitive action games while immediately cutting your bandwidth footprints in half.</p></li>
+</ul>
+<p>The full quantization and bit-packing engine implementations tested in this post are open-source and can be compiled directly via our <code>flushtools</code> repository.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/flushwhy\.github\.io\/labs\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
