@@ -10,7 +10,7 @@ about:
 
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com/in/flushly
+      href: https://linkedin.com/in/flushy
 
     - icon: envelope
       text: Email
@@ -19,6 +19,10 @@ about:
     - icon: discord
       text: Discord (_flush)
       href: https://discord.com/users/_flush
+
+    - icon: heart-fill
+      text: Sponsor
+      href: https://github.com/sponsors/flushwhy
 ---
 
 ## Background
