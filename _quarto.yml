@@ -4,7 +4,7 @@ project:
 website:
   site-url: "https://flushwhy.github.io/labs/"
   title: "Flush Laboratory"
-  description: "Exploring The World of Games and Machine Learning"
+  description: "Systems engineering, engine tooling, and lightweight AI research."
   favicon: "assets/favicon.ico"
   navbar:
     left:
@@ -21,10 +21,8 @@ website:
 
 format:
   html:
-    theme:
-      light: cosmo
-      dark: darkly
+    theme: cosmo
     css: styles.css
     toc: true
-    toc-title: "On this page"
-    highlight-style: github-dark
+    toc-title: "on this page"
+    highlight-style: monokai
