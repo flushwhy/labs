@@ -1,6 +1,6 @@
 ---
 title: "FlushLabs"
-subtitle: "Systems engineering, engine tooling, and lightweight AI research."
+subtitle: "Systems engineering, game technology, and practical R&D."
 page-layout: full
 about:
   template: marquee
@@ -10,87 +10,93 @@ about:
       href: https://github.com/flushwhy
     - icon: discord
       text: Discord (_flush)
-      href: https://discord.com/
+      href: https://discord.com/users/_flush
 ---
 
 ::: {.grid}
 
 ::: {.g-col-12 .g-col-md-8}
-I'm **Flushwhy** — a systems engineer with an HPC background, currently building engine tooling, networking utilities, and lightweight AI research for games.
+I'm **Flushwhy** — a systems engineer and deep tech founder building software close to the hardware, from developer tools and native game integrations to real-time simulation and local AI.
 
-This lab is where I ship open-source infrastructure, run benchmarks, and document the work publicly.
+**FlushLabs** is my engineering workshop: a place to build useful software, test ideas against real constraints, and publish the results. The work spans products, infrastructure, and experiments rather than one narrow technology stack.
 :::
 
 ::: {.g-col-12 .g-col-md-4}
-| Field | Technologies |
+| Focus | Tools and technologies |
 |:---|:---|
-| **Languages** | C/C++, Go, Odin, Python |
-| **Engines** | Unreal Engine, Godot |
-| **Domains** | HPC, Networking, Applied AI |
+| **Systems** | C, C++, Odin, Go |
+| **Application** | Python, Lua |
+| **Game technology** | Unreal Engine, Godot |
+| **Research** | HPC, simulation, networking, local ML |
 :::
 
 :::
 
 ---
 
-## Shipped Projects
+## Building
 
-### GameJolt API Plugin — Unreal Engine 5
-> Native C++ · Subsystem Architecture · Blueprint Integration
+### Fe — Project and release tooling
+> Developer tooling · Build systems · Distribution
 
-A production-ready integration of the GameJolt API built natively for UE5. Bypasses bloated wrappers and plugs directly into Unreal's subsystem architecture — exposing clean async pipelines for leaderboards, session management, cloud storage, and authentication with zero frame-budget impact.
+A command-line toolkit for taking small projects from setup to shippable releases. Fe aims to make the practical parts of software delivery easier to understand and repeat, without hiding the underlying tools or locking projects into one ecosystem.
 
-<a class="btn btn-outline-primary btn-sm" href="https://github.com/flushwhy/Gamejolt" target="_blank" role="button">
-  <i class="bi bi-github"></i> View on GitHub
-</a>
+[Explore Fe](https://github.com/flushwhy/fe)
 
----
+### VideoForge — Video rendering
+> Media tooling · Rendering pipelines
 
-### FlushTools — Single-Header C Utility Library
-> Bit Packing · Serialization · Quantization · Coordinate Compression · Networking
+A video creation and rendering project focused on making the workflow dependable and improving render performance. Current work is centered on fixing render reliability and reducing the time it takes to produce an output.
 
-A lightweight, dependency-free C utility library built for engine-side use. The most useful parts are the networking and compression utilities — bit packing, quantization, and coordinate compression for multiplayer data optimization. Also includes a custom PRNG validated against 100M samples for uniform distribution and serial independence.
+[Explore VideoForge](https://github.com/flushwhy/VideoForge)
 
-<a class="btn btn-outline-primary btn-sm" href="https://github.com/flushwhy/flushtoolsh" target="_blank" role="button">
-  <i class="bi bi-github"></i> View on GitHub
-</a>
+### Playriter — Screenplay editor
+> Android · Fountain · Document workflows
 
----
+A screenplay editor built around a proper project format, with Fountain import and export as part of a screenplay-focused writing workflow. The goal is to preserve screenplay structure and presentation instead of treating a script as plain text.
 
-## Active R&D
-
-::: {.grid}
-
-::: {.g-col-12 .g-col-md-6}
-### Embedded Low-Power TTS
-> Deep Learning + Signal Processing
-
-Ultra-efficient Text-to-Speech optimized for local inference on Raspberry Pi and mobile — no cloud round-trip. Replacing heavy APIs with native C/C++ inference to make runtime dialogue systems viable on constrained hardware.
-
-[→ R&D Logs](notebooks/index.qmd)
-:::
-
-::: {.g-col-12 .g-col-md-6}
-### ML-Enhanced 2D Physics
-> Rigid Body Dynamics + Neural Approximation
-
-A deterministic 2D physics engine combining classical constraint solvers with neural approximation for expensive dynamics — targeting sub-16.6ms execution to fit inside a real game loop.
-:::
-
-:::
+[Explore Playriter](https://github.com/flushwhy/playriter)
 
 ---
 
-## Technical Notebooks
+## Game technology and systems work
 
-Benchmarks, statistical analysis, and implementation notes live in the [R&D Logs](notebooks/index.qmd). Everything is executable and reproducible.
+### GameJolt — Unreal Engine integration
+> Native C++ · Unreal subsystems · Blueprint API
+
+An Unreal Engine plugin that connects games to the GameJolt API through a native C++ layer and Unreal-friendly subsystem interfaces. It covers player sessions, authentication, trophies, scores, and cloud data.
+
+[Explore GameJolt](https://github.com/flushwhy/Gamejolt)
+
+### Real-time simulation and local AI
+> Physics · Neural approximation · Embedded inference
+
+Experiments in making simulation and machine-learning techniques useful inside real applications. This includes ML-assisted 2D physics, deterministic execution, and research into small models that can run locally on constrained devices rather than depending on a cloud service.
+
+[Browse the R&D logs](notebooks/index.qmd)
 
 ---
 
-::: {.callout-note icon=true}
-### Open to Collaboration
-Looking to connect with **systems engineers, game developers, and AI/ML researchers** interested in real-time software. Commercial R&D, benchmarking, or early-stage venture building — reach out.
+## How I work
 
+I care about the distance between an idea and a reliable implementation. That means understanding memory, data movement, latency, build pipelines, and the constraints of the machine an application actually runs on.
+
+I prefer small, understandable systems over layers of abstraction. Measure before optimizing, keep dependencies intentional, and make tools that help people ship real work.
+
+---
+
+## Research notes
+
+The [R&D Logs](notebooks/index.qmd) collect experiments, benchmarks, and implementation notes. They include work on random-number quality, network coordinate compression, quantization, and performance-oriented techniques.
+
+---
+
+::: {.callout-note icon=false}
+### Collaboration
+
+I'm interested in working with people building systems software, developer tools, game technology, and practical on-device AI. For engineering collaboration, applied R&D, or early-stage product work, reach out.
+
+- **GitHub:** [@flushwhy](https://github.com/flushwhy)
 - **Discord:** `_flush`
-- **Signal:** `flush.01`
+- **Email:** [roflush@proton.me](mailto:roflush@proton.me)
 :::
