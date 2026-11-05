@@ -1,6 +1,6 @@
 ---
 title: "R&D Logs"
-subtitle: "Technical spikes, paper breakdowns, and engineering notebooks."
+subtitle: "Experiments, benchmarks, and engineering notes."
 page-layout: full
 listing:
   contents:
@@ -13,4 +13,6 @@ listing:
   fields: [date, title, description, categories, reading-time]
 ---
 
-Welcome to the FlushLabs engineering logs. Live, executable computational notebooks detailing optimization passes, ML model training scripts, and architectural benchmarks.
+These notebooks are working records of engineering experiments. They cover performance questions, numerical behavior, data representation, and implementation trade-offs.
+
+The goal is reproducibility over presentation: show the setup, inspect the results, and keep the reasoning close to the measurements.
