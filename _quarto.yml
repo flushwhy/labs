@@ -3,8 +3,8 @@ project:
 
 website:
   site-url: "https://flushwhy.github.io/labs/"
-  title: "Flush Laboratory"
-  description: "Systems engineering, engine tooling, and lightweight AI research."
+  title: "FlushLabs"
+  description: "Systems engineering, developer tools, game technology, and applied research."
   favicon: "assets/favicon.ico"
   navbar:
     left:
