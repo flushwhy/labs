@@ -1,5 +1,5 @@
 ---
-title: "About Me"
+title: "About"
 subtitle: "Systems Engineer & Deep Tech Founder"
 about:
   template: trestles
@@ -7,50 +7,72 @@ about:
     - icon: github
       text: GitHub
       href: https://github.com/flushwhy
-
     - icon: linkedin
       text: LinkedIn
       href: https://linkedin.com/in/flushy
-
     - icon: envelope
       text: Email
       href: mailto:roflush@proton.me
-
     - icon: discord
       text: Discord (_flush)
       href: https://discord.com/users/_flush
-
     - icon: heart-fill
       text: Sponsor
       href: https://github.com/sponsors/flushwhy
 ---
 
+## What I do
+
+I'm **Flushwhy**, a software engineer and the founder of **FlushLabs**. My work sits at the intersection of systems engineering, developer tooling, game technology, and applied research.
+
+I like building software where implementation details matter: tools that make projects easier to ship, native integrations that fit their host applications, and real-time systems that have to respect the limits of their hardware.
+
+FlushLabs is the home for that work. It brings together open-source projects, independent product development, and technical experiments. It isn't tied to a single framework or product category; the common thread is practical engineering and a preference for software that stays understandable.
+
 ## Background
 
-I am **Flushwhy**, a software engineer specializing in low-level systems, high-performance architecture, and real-time game engineering. 
+My engineering perspective was shaped in part by **high-performance computing (HPC)**. Working around performance-sensitive systems taught me to think beyond source code and consider memory behavior, data movement, concurrency, and the hardware underneath an application.
 
-My background in **High-Performance Computing (HPC)** ingrained in me a strict philosophy of mechanical sympathy—understanding exactly how software interacts with hardware, memory caches, and silicon. 
+That experience also shaped how I approach technical communication and review: explain the trade-offs clearly, make assumptions visible, and make the reasoning understandable even when the implementation is specialized.
 
-Today, games are hitting a technical ceiling. Running heavy, unoptimized AI and physics models inside a real-time game loop is incredibly difficult. I founded FlushLabs to solve this specific bottleneck: leveraging my systems background to make advanced AI/ML algorithms small, fast, and deterministic enough for production game engines.
+I work across low-level and application-facing software. My current toolkit includes C and C++, Odin, Go, Python, and Lua, with Unreal Engine and Godot as important parts of my game-development work.
 
----
+## What I'm building
 
-## Technical Edge
+### Developer tools and infrastructure
 
-### Systems Engineering (HPC)
-*   **Low-Level Mastery:** Years of experience writing high-throughput, memory-efficient code in **C/C++, Go, and Odin**.
-*   **Extreme Optimization:** Multi-threading, SIMD vectorization, and cache-conscious data structures designed to squeeze every ounce of performance out of hardware.
+I created **Fe** to make the path from a project directory to a reproducible, distributable release less fragmented. It brings common setup, build, and release tasks into a consistent CLI while keeping the underlying systems visible.
 
-### Real-Time AI & Simulations
-*   **Engine Integration:** Deep architecture work inside **Unreal Engine** and building native, modular extensions for **Godot**.
-*   **Applied Research:** Merging traditional engineering disciplines (like DSP and classical rigid-body physics) with lightweight, local deep learning models.
+### Game technology
 
----
+My game-engine work focuses on native integrations and practical runtime systems. The GameJolt Unreal plugin is an example: a C++ integration designed around Unreal's own architecture rather than a generic wrapper.
 
-## Engineering Manifesto
+I'm also interested in the performance details that shape game experiences: networking, compact data formats, simulation, and predictable frame-time behavior.
 
-> "The sustainability of modern open infrastructure relies entirely on rigorous engineering oversight."
+### Applied AI and simulation
 
-I operate on a philosophy of strict technical accountability. As software systems grow increasingly complex and reliant on automated layers, the baseline definitions of transparency and security are at risk of eroding.
+I explore ways to make machine learning useful under real application constraints. That includes local inference, embedded hardware, and ML-assisted physics experiments where model cost, determinism, and runtime behavior matter as much as model accuracy.
 
-I believe systems should be built with mechanical sympathy—where every layer of the stack is optimized, audited, and deterministic. FlushLabs exists to challenge lazy abstractions, delivering lean, low-level engineering that respects both the hardware it runs on and the end user it serves.
+### Product engineering
+
+Not all of my work is low-level. Projects such as VideoForge and Playriter involve the full product problem: designing workflows, making rendering or document handling reliable, and turning a technical idea into software someone can use.
+
+## Engineering principles
+
+- **Understand the machine.** Memory, bandwidth, scheduling, and latency are part of the design.
+- **Keep the system legible.** Prefer direct solutions and intentional dependencies over abstraction for its own sake.
+- **Measure real behavior.** Benchmarks and reproducible tests should inform optimization.
+- **Respect the user.** Reliability, clear errors, and predictable workflows are engineering requirements.
+- **Build for use.** Research matters most when its results can survive contact with a real application.
+
+> Good engineering is not complexity for its own sake. It is choosing the simplest design that meets the real constraints, then proving that it works.
+
+## Beyond the current projects
+
+I'm also exploring broader systems work, including a FreeBSD-based desktop distribution that builds on the upstream operating system rather than maintaining a separate kernel fork. These experiments are part of the same interest in understanding and improving the complete software experience.
+
+## Get in touch
+
+I'm open to conversations around systems software, developer tooling, game technology, applied AI, and early-stage product development.
+
+The best place to see what I'm working on is [GitHub](https://github.com/flushwhy). You can also reach me at [roflush@proton.me](mailto:roflush@proton.me) or on Discord as `_flush`.
