@@ -28,6 +28,12 @@ jobs:
         if: github.event_name == 'pull_request'
         run: quarto render --no-execute
 
+      - name: Configure Git identity
+        if: github.event_name != 'pull_request'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Publish with Quarto
         if: github.event_name != 'pull_request'
         run: quarto publish gh-pages
