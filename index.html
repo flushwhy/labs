@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>FlushLabs – Flush Laboratory</title>
+<title>FlushLabs</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -46,7 +46,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-204e14f15910316c170267f8d0a55226.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1de65eac98a9a083ead46591113cb506.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-bc2f13aab556d498c9a16e5c118a666b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -87,7 +87,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Flush Laboratory</span>
+    <span class="navbar-title">FlushLabs</span>
     </a>
   </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -130,13 +130,19 @@ ul.task-list li input[type="checkbox"] {
         <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
     <h2 id="toc-title">on this page</h2>
   <ul>
-  <li><a href="#shipped-projects" id="toc-shipped-projects" class="nav-link active" data-scroll-target="#shipped-projects">Shipped Projects</a>
+  <li><a href="#building" id="toc-building" class="nav-link active" data-scroll-target="#building">Building</a>
   <ul class="collapse">
-  <li><a href="#gamejolt-api-plugin-unreal-engine-5" id="toc-gamejolt-api-plugin-unreal-engine-5" class="nav-link" data-scroll-target="#gamejolt-api-plugin-unreal-engine-5">GameJolt API Plugin — Unreal Engine 5</a></li>
-  <li><a href="#flushtools-single-header-c-utility-library" id="toc-flushtools-single-header-c-utility-library" class="nav-link" data-scroll-target="#flushtools-single-header-c-utility-library">FlushTools — Single-Header C Utility Library</a></li>
+  <li><a href="#fe-project-and-release-tooling" id="toc-fe-project-and-release-tooling" class="nav-link" data-scroll-target="#fe-project-and-release-tooling">Fe — Project and release tooling</a></li>
+  <li><a href="#videoforge-video-rendering" id="toc-videoforge-video-rendering" class="nav-link" data-scroll-target="#videoforge-video-rendering">VideoForge — Video rendering</a></li>
+  <li><a href="#playriter-screenplay-editor" id="toc-playriter-screenplay-editor" class="nav-link" data-scroll-target="#playriter-screenplay-editor">Playriter — Screenplay editor</a></li>
   </ul></li>
-  <li><a href="#active-rd" id="toc-active-rd" class="nav-link" data-scroll-target="#active-rd">Active R&amp;D</a></li>
-  <li><a href="#technical-notebooks" id="toc-technical-notebooks" class="nav-link" data-scroll-target="#technical-notebooks">Technical Notebooks</a></li>
+  <li><a href="#game-technology-and-systems-work" id="toc-game-technology-and-systems-work" class="nav-link" data-scroll-target="#game-technology-and-systems-work">Game technology and systems work</a>
+  <ul class="collapse">
+  <li><a href="#gamejolt-unreal-engine-integration" id="toc-gamejolt-unreal-engine-integration" class="nav-link" data-scroll-target="#gamejolt-unreal-engine-integration">GameJolt — Unreal Engine integration</a></li>
+  <li><a href="#real-time-simulation-and-local-ai" id="toc-real-time-simulation-and-local-ai" class="nav-link" data-scroll-target="#real-time-simulation-and-local-ai">Real-time simulation and local AI</a></li>
+  </ul></li>
+  <li><a href="#how-i-work" id="toc-how-i-work" class="nav-link" data-scroll-target="#how-i-work">How I work</a></li>
+  <li><a href="#research-notes" id="toc-research-notes" class="nav-link" data-scroll-target="#research-notes">Research notes</a></li>
   </ul>
 </nav>
     </div>
@@ -148,7 +154,7 @@ ul.task-list li input[type="checkbox"] {
     <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">FlushLabs</h1>
-<p class="subtitle lead">Systems engineering, engine tooling, and lightweight AI research.</p>
+<p class="subtitle lead">Systems engineering, game technology, and practical R&amp;D.</p>
 </div>
 <div class="quarto-title-meta column-page-left">
   </div>
@@ -156,95 +162,112 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="grid">
 <div class="g-col-12 g-col-md-8">
-<p>I’m <strong>Flushwhy</strong> — a systems engineer with an HPC background, currently building engine tooling, networking utilities, and lightweight AI research for games.</p>
-<p>This lab is where I ship open-source infrastructure, run benchmarks, and document the work publicly.</p>
+<p>I’m <strong>Flushwhy</strong> — a systems engineer and deep tech founder building software close to the hardware, from developer tools and native game integrations to real-time simulation and local AI.</p>
+<p><strong>FlushLabs</strong> is my engineering workshop: a place to build useful software, test ideas against real constraints, and publish the results. The work spans products, infrastructure, and experiments rather than one narrow technology stack.</p>
 </div>
 <div class="g-col-12 g-col-md-4">
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th style="text-align: left;">Field</th>
-<th style="text-align: left;">Technologies</th>
+<th style="text-align: left;">Focus</th>
+<th style="text-align: left;">Tools and technologies</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><strong>Languages</strong></td>
-<td style="text-align: left;">C/C++, Go, Odin, Python</td>
+<td style="text-align: left;"><strong>Systems</strong></td>
+<td style="text-align: left;">C, C++, Odin, Go</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Engines</strong></td>
-<td style="text-align: left;">Unreal Engine, Godot</td>
+<td style="text-align: left;"><strong>Application</strong></td>
+<td style="text-align: left;">Python, Lua</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Domains</strong></td>
-<td style="text-align: left;">HPC, Networking, Applied AI</td>
+<td style="text-align: left;"><strong>Game technology</strong></td>
+<td style="text-align: left;">Unreal Engine, Godot</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Research</strong></td>
+<td style="text-align: left;">HPC, simulation, networking, local ML</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <hr>
-<section id="shipped-projects" class="level2">
-<h2 data-anchor-id="shipped-projects">Shipped Projects</h2>
-<section id="gamejolt-api-plugin-unreal-engine-5" class="level3">
-<h3 data-anchor-id="gamejolt-api-plugin-unreal-engine-5">GameJolt API Plugin — Unreal Engine 5</h3>
+<section id="building" class="level2">
+<h2 data-anchor-id="building">Building</h2>
+<section id="fe-project-and-release-tooling" class="level3">
+<h3 data-anchor-id="fe-project-and-release-tooling">Fe — Project and release tooling</h3>
 <blockquote class="blockquote">
-<p>Native C++ · Subsystem Architecture · Blueprint Integration</p>
+<p>Developer tooling · Build systems · Distribution</p>
 </blockquote>
-<p>A production-ready integration of the GameJolt API built natively for UE5. Bypasses bloated wrappers and plugs directly into Unreal’s subsystem architecture — exposing clean async pipelines for leaderboards, session management, cloud storage, and authentication with zero frame-budget impact.</p>
-<p><a class="btn btn-outline-primary btn-sm" href="https://github.com/flushwhy/Gamejolt" target="_blank" role="button"> <i class="bi bi-github"></i> View on GitHub </a></p>
+<p>A command-line toolkit for taking small projects from setup to shippable releases. Fe aims to make the practical parts of software delivery easier to understand and repeat, without hiding the underlying tools or locking projects into one ecosystem.</p>
+<p><a href="https://github.com/flushwhy/fe">Explore Fe</a></p>
+</section>
+<section id="videoforge-video-rendering" class="level3">
+<h3 data-anchor-id="videoforge-video-rendering">VideoForge — Video rendering</h3>
+<blockquote class="blockquote">
+<p>Media tooling · Rendering pipelines</p>
+</blockquote>
+<p>A video creation and rendering project focused on making the workflow dependable and improving render performance. Current work is centered on fixing render reliability and reducing the time it takes to produce an output.</p>
+<p><a href="https://github.com/flushwhy/VideoForge">Explore VideoForge</a></p>
+</section>
+<section id="playriter-screenplay-editor" class="level3">
+<h3 data-anchor-id="playriter-screenplay-editor">Playriter — Screenplay editor</h3>
+<blockquote class="blockquote">
+<p>Android · Fountain · Document workflows</p>
+</blockquote>
+<p>A screenplay editor built around a proper project format, with Fountain import and export as part of a screenplay-focused writing workflow. The goal is to preserve screenplay structure and presentation instead of treating a script as plain text.</p>
+<p><a href="https://github.com/flushwhy/playriter">Explore Playriter</a></p>
 <hr>
 </section>
-<section id="flushtools-single-header-c-utility-library" class="level3">
-<h3 data-anchor-id="flushtools-single-header-c-utility-library">FlushTools — Single-Header C Utility Library</h3>
+</section>
+<section id="game-technology-and-systems-work" class="level2">
+<h2 data-anchor-id="game-technology-and-systems-work">Game technology and systems work</h2>
+<section id="gamejolt-unreal-engine-integration" class="level3">
+<h3 data-anchor-id="gamejolt-unreal-engine-integration">GameJolt — Unreal Engine integration</h3>
 <blockquote class="blockquote">
-<p>Bit Packing · Serialization · Quantization · Coordinate Compression · Networking</p>
+<p>Native C++ · Unreal subsystems · Blueprint API</p>
 </blockquote>
-<p>A lightweight, dependency-free C utility library built for engine-side use. The most useful parts are the networking and compression utilities — bit packing, quantization, and coordinate compression for multiplayer data optimization. Also includes a custom PRNG validated against 100M samples for uniform distribution and serial independence.</p>
-<p><a class="btn btn-outline-primary btn-sm" href="https://github.com/flushwhy/flushtoolsh" target="_blank" role="button"> <i class="bi bi-github"></i> View on GitHub </a></p>
+<p>An Unreal Engine plugin that connects games to the GameJolt API through a native C++ layer and Unreal-friendly subsystem interfaces. It covers player sessions, authentication, trophies, scores, and cloud data.</p>
+<p><a href="https://github.com/flushwhy/Gamejolt">Explore GameJolt</a></p>
+</section>
+<section id="real-time-simulation-and-local-ai" class="level3">
+<h3 data-anchor-id="real-time-simulation-and-local-ai">Real-time simulation and local AI</h3>
+<blockquote class="blockquote">
+<p>Physics · Neural approximation · Embedded inference</p>
+</blockquote>
+<p>Experiments in making simulation and machine-learning techniques useful inside real applications. This includes ML-assisted 2D physics, deterministic execution, and research into small models that can run locally on constrained devices rather than depending on a cloud service.</p>
+<p><a href="./notebooks/index.html">Browse the R&amp;D logs</a></p>
 <hr>
 </section>
 </section>
-<section id="active-rd" class="level2">
-<h2 data-anchor-id="active-rd">Active R&amp;D</h2>
-<div class="grid">
-<section id="embedded-low-power-tts" class="level3 g-col-12 g-col-md-6">
-<h3 data-anchor-id="embedded-low-power-tts">Embedded Low-Power TTS</h3>
-<blockquote class="blockquote">
-<p>Deep Learning + Signal Processing</p>
-</blockquote>
-<p>Ultra-efficient Text-to-Speech optimized for local inference on Raspberry Pi and mobile — no cloud round-trip. Replacing heavy APIs with native C/C++ inference to make runtime dialogue systems viable on constrained hardware.</p>
-<p><a href="./notebooks/index.html">→ R&amp;D Logs</a></p>
-</section>
-<section id="ml-enhanced-2d-physics" class="level3 g-col-12 g-col-md-6">
-<h3 data-anchor-id="ml-enhanced-2d-physics">ML-Enhanced 2D Physics</h3>
-<blockquote class="blockquote">
-<p>Rigid Body Dynamics + Neural Approximation</p>
-</blockquote>
-<p>A deterministic 2D physics engine combining classical constraint solvers with neural approximation for expensive dynamics — targeting sub-16.6ms execution to fit inside a real game loop.</p>
-</section>
-</div>
+<section id="how-i-work" class="level2">
+<h2 data-anchor-id="how-i-work">How I work</h2>
+<p>I care about the distance between an idea and a reliable implementation. That means understanding memory, data movement, latency, build pipelines, and the constraints of the machine an application actually runs on.</p>
+<p>I prefer small, understandable systems over layers of abstraction. Measure before optimizing, keep dependencies intentional, and make tools that help people ship real work.</p>
 <hr>
 </section>
-<section id="technical-notebooks" class="level2">
-<h2 data-anchor-id="technical-notebooks">Technical Notebooks</h2>
-<p>Benchmarks, statistical analysis, and implementation notes live in the <a href="./notebooks/index.html">R&amp;D Logs</a>. Everything is executable and reproducible.</p>
+<section id="research-notes" class="level2">
+<h2 data-anchor-id="research-notes">Research notes</h2>
+<p>The <a href="./notebooks/index.html">R&amp;D Logs</a> collect experiments, benchmarks, and implementation notes. They include work on random-number quality, network coordinate compression, quantization, and performance-oriented techniques.</p>
 <hr>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Open to Collaboration
+<span class="screen-reader-only">Note</span>Collaboration
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Looking to connect with <strong>systems engineers, game developers, and AI/ML researchers</strong> interested in real-time software. Commercial R&amp;D, benchmarking, or early-stage venture building — reach out.</p>
+<p>I’m interested in working with people building systems software, developer tools, game technology, and practical on-device AI. For engineering collaboration, applied R&amp;D, or early-stage product work, reach out.</p>
 <ul>
+<li><strong>GitHub:</strong> <a href="https://github.com/flushwhy"><span class="citation" data-cites="flushwhy">@flushwhy</span></a></li>
 <li><strong>Discord:</strong> <code>_flush</code></li>
-<li><strong>Signal:</strong> <code>flush.01</code></li>
+<li><strong>Email:</strong> <a href="mailto:roflush@proton.me">roflush@proton.me</a></li>
 </ul>
 </div>
 </div>
@@ -257,7 +280,7 @@ ul.task-list li input[type="checkbox"] {
     <i class="bi bi-github"></i>
      <span class="about-link-text">GitHub</span>
   </a>
-  <a href="https://discord.com/" class="about-link" rel="" target="">
+  <a href="https://discord.com/users/_flush" class="about-link" rel="" target="">
     <i class="bi bi-discord"></i>
      <span class="about-link-text">Discord (_flush)</span>
   </a>
