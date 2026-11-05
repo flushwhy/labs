@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://flushwhy.github.io/labs/notebooks/checking-numbers-for-random.html</loc>
-    <lastmod>2026-06-09T07:13:51.249Z</lastmod>
-  </url>
-  <url>
-    <loc>https://flushwhy.github.io/labs/notebooks/index.html</loc>
-    <lastmod>2026-06-09T07:13:51.249Z</lastmod>
-  </url>
-  <url>
-    <loc>https://flushwhy.github.io/labs/index.html</loc>
-    <lastmod>2026-06-09T07:13:51.249Z</lastmod>
-  </url>
-  <url>
     <loc>https://flushwhy.github.io/labs/about.html</loc>
-    <lastmod>2026-06-09T07:13:51.249Z</lastmod>
+    <lastmod>2026-11-05T02:20:55.958Z</lastmod>
+  </url>
+  <url>
+    <loc>https://flushwhy.github.io/labs/notebooks/checking-numbers-for-random.html</loc>
+    <lastmod>2026-11-05T02:20:55.958Z</lastmod>
   </url>
   <url>
     <loc>https://flushwhy.github.io/labs/notebooks/quantization-noise-vs-bit-width-in-networked-3d-coordinate-compression.html</loc>
-    <lastmod>2026-06-09T21:06:14.889Z</lastmod>
+    <lastmod>2026-11-05T02:20:55.959Z</lastmod>
+  </url>
+  <url>
+    <loc>https://flushwhy.github.io/labs/notebooks/index.html</loc>
+    <lastmod>2026-11-05T02:20:55.959Z</lastmod>
+  </url>
+  <url>
+    <loc>https://flushwhy.github.io/labs/index.html</loc>
+    <lastmod>2026-11-05T02:20:55.958Z</lastmod>
   </url>
 </urlset>
